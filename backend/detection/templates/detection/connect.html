@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}HOME{% endblock %}
+{% block content %}
+<div class="container">
+    <!-- <h1>Вітаємо на головній сторінці!</h1>
+
+    
+    <h2>Завантажте файл</h2> -->
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="file" accept="video/*">
+        <!-- <button type="submit">Submit</button> -->
+    </form>
+
+    <img src="{% url 'video_feed' %}" width="1000"></img>
+
+    
+    
+</div>
+{% endblock %}
+
+<!-- <html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Головна сторінка</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></>
+</head>
+<body>
+    <header>
+        <a href="main.html">
+            <div class="img-logo">
+                <img src="img/logo 2.png" align="left" >
+            </div>
+        </a>
+
+        <nav>
+            <ul>
+                <li><a href="main.html">Головна</a></li>
+                <li><a href="stat.html">Статистика</a></li>
+                <li><a href="index.html">Вийти</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <h1>Вітаємо на головній сторінці!</h1>
+
+        <p>Ви успішно авторизувались.</p>
+        <h2>Завантажте файл</h2>
+        <input type="file" accept="video/*">
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 Усі права захищені</p>
+    </footer>
+    
+</body>
+</html> -->

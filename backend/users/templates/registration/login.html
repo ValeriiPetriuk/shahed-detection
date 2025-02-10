@@ -1,0 +1,42 @@
+{% load static %}
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизація</title>
+    <link rel="stylesheet" type="text/css"  href="{% static 'css/style.css' %}">
+</head>
+<body>
+   
+    <div class="background"></div>
+    <div class="container form-container">
+        <h1>Авторизація</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            
+            <button type="submit" class="btn">Увійти</button>
+           
+        </form>
+    </div>
+    <footer>
+        <p>&copy; 2025 Всі права захищені</p>
+    </footer>
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Log in</title>
+</head>
+<body>
+    <h1>Log in</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Log in</button>
+        <input type="hidden" name="next" value="{{ next }}">
+    </form>
+</body>
+</html> -->

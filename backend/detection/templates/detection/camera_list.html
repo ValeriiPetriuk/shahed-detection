@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}HOME{% endblock %}
+{% block content %}
+<style>
+    .container {
+        display: flex;
+        flex-wrap: wrap; 
+        justify-content: center; 
+        gap: 20px; 
+    }
+
+    .camera-box {
+        width: 220px; 
+        text-align: center;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .camera-box img {
+        border-radius: 8px;
+        width: 100%;
+    }
+
+    .camera-box a {
+        display: block;
+        margin-top: 8px;
+        font-weight: bold;
+        text-decoration: none;
+        color: #333;
+    }
+</style>
+
+<div class="container">
+    {% for obj in object_list %}
+    <div class="camera-box">
+        <img src="{% url 'video_feed' obj.pk  %}" width="400" height="400" >
+        <a href="{% url 'video_feed' obj.pk %}"> {{ obj.name }} </a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

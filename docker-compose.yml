@@ -1,0 +1,54 @@
+services:
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+  django:
+    build: .
+    container_name: django_app
+    command: >
+      sh -c "python manage.py makemigrations &&
+              python manage.py migrate &&
+              python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./backend:/backend
+    
+    ports:
+      - "8000:8000"
+    depends_on:
+      - pgdb
+      - redis
+    environment:
+      - DEBUG=True
+      - REDIS_URL=redis://redis:6379/0
+
+  celery:
+    build: .
+    container_name: celery_worker
+    command: celery -A backend worker --loglevel=info
+    depends_on:
+      - django
+      - redis
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - ./backend:/backend
+
+
+
+  pgdb:
+      image: postgres
+      container_name: pgdb
+      environment:
+          - POSTGRES_DB=postgres
+          - POSTGRES_USER=postgres
+          - POSTGRES_PASSWORD=postgres
+      volumes:
+          - pgdata:/var/lib/postgresql/data/
+
+volumes:
+  media:
+  pgdata:

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Детальна інформація про детекцію{% endblock %}
+
+{% block content %}
+<style>
+    .detection-container {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.detection-image img {
+    max-width: 400px;
+    border: 3px solid #FFD700; 
+    border-radius: 10px;
+}
+
+.detection-info {
+    color: #fff;
+}
+
+h1, h2 {
+    color: #FFD700;
+}
+
+a {
+    color: #FFD700;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+
+</style>
+<div class="detection-container">
+    <div class="detection-image">
+        <img src="{{ detection.image.url }}" alt="Зображення детекції"/>
+    </div>
+    <div class="detection-info">
+        <h1>Детальна інформація про детекцію</h1>
+
+        <p><strong>Дата і час:</strong> {{ detection.time|date:"d.m.Y H:i" }}</p>
+        <p><strong>Кількість об'єктів:</strong> {{ detection.count }}</p>
+        <p><strong>Точність:</strong> {{ detection.precision|floatformat:2 }}%</p>
+
+        <h2>Інформація про камеру</h2>
+        <p><strong>Назва:</strong> {{ detection.camera.name }}</p>
+        <p><strong>Розташування:</strong> {{ detection.camera.location }}</p>
+        <p><strong>Джерело відео:</strong> {{ detection.camera.source }}</p>
+
+        <a href="{% url 'camera_list' %}">Повернутися до списку камер</a>
+    </div>
+</div>
+{% endblock %}

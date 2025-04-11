@@ -1,0 +1,10 @@
+django==5.1.5
+opencv-python==4.11.0.86
+django-redis==5.4.0
+redis==5.2.1
+ultralytics==8.3.85 
+telebot
+celery==5.4.0 
+lap>=0.4
+psycopg2-binary>=2.8
+python-dotenv==1.0.1

@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% block title %}HOME{% endblock %}
+{% block content %}
+
+<style>
+
+.styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .styled-table th, .styled-table td {
+        padding: 12px 15px;
+        text-align: left;
+    }
+
+    .styled-table th {
+        background-color: #4CAF50;
+        color: #ffffff;
+        text-transform: uppercase;
+    }
+
+    .styled-table tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .preview-img {
+        border-radius: 5px;
+        border: 2px solid #4CAF50;
+    }
+    .content-wrapper {
+        display: flex;
+        gap: 20px;
+    }
+
+    .chart-container {
+        flex: 1;
+        min-width: 300px;
+        background-color: #ffffff;
+        border: 2px solid #4CAF50;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .table-container {
+        flex: 2;
+    }
+
+    .pagination {
+        margin-top: 15px;
+        text-align: center;
+    }
+    .time-link {
+        color: #4CAF50;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .page-link {
+        color: #4CAF50;
+        text-decoration: none;
+        padding: 5px 10px;
+        border: 1px solid #4CAF50;
+        border-radius: 4px;
+        margin: 0 5px;
+    }
+
+    .page-current {
+        font-weight: bold;
+    }
+</style>
+
+<div class="container">
+    <div class="content-wrapper">
+        <div class="chart-container">
+            <canvas id="detectionChart" width="300" height="300"></canvas>
+        </div>
+
+        <div class="table-container">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Час</th>
+                        <th>Локація</th>
+                        <th>Точність</th>
+                        <th>Попередній перегляд зображення</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for obj in object_list %} 
+                    <tr>
+                        <td><a href="{% url 'detection-detail' obj.pk %}" class="time-link">{{ obj.time }}</a></td>
+                        <td>{{ obj.camera.location }}</td>
+                        <td>{{ obj.precision }}</td>
+                        <td><img src="{{ obj.image.url }}" width="100" class="preview-img"/></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            {% if is_paginated %}
+                <div class="pagination">
+                    <span class="page-links">
+                        {% if page_obj.has_previous %}
+                            <a href="/statistics?page={{ page_obj.previous_page_number }}" class="page-link">Попередня</a>
+                        {% endif %}
+                        <span class="page-current">
+                            Сторінка {{ page_obj.number }} з {{ page_obj.paginator.num_pages }}
+                        </span>
+                        {% if page_obj.has_next %}
+                            <a href="/statistics?page={{ page_obj.next_page_number }}" class="page-link">Наступна</a>
+                        {% endif %}
+                    </span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('detectionChart');
+  
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels:  {{ chart_labels|safe }},
+        datasets: [{
+          label: 'Кількість помічених об’єктів',
+          data: {{ chart_values|safe }},
+          borderColor: 'rgba(75, 192, 192, 1)',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderWidth: 2,
+          fill: true
+        },
+    
+        // {
+        //     label: 'Кількість помічених об’єктів (інша категорія)',
+        //     data: [24, 56, 45, 0, 0],
+        //     borderColor: 'rgba(255, 99, 132, 1)',
+        //     backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        //     borderWidth: 2,
+        //     fill: true
+        //   }
+    ]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+</script>
+
+
+
+{% endblock %}

@@ -4,21 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Мій сайт{% endblock %}</title>
+    <title>{% block title %}Shahed{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+  
     <header>
-        <a >
+        <a href="{% url 'camera_list' %}">
             <div class="img-logo">
                 <img src="{% static 'img/logo2.png' %}" align="left">
             </div>
         </a>
         <nav>
             <ul>
-                <li><a >Головна</a></li>
-                <li><a>Статистика</a></li>
+                <li><a href="{% url 'camera_list' %}" >Головна</a></li>
+                <li>
+                    <a href="{% url 'statistics' %}">
+                        Статистика</a>
+                    </li>
                 <form id="logoutForm" action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
                     <!-- <button type="submit">Вийти</button> -->
@@ -30,8 +34,8 @@
 
     {% block content %}{% endblock %}
 
-    <footer>
-        <p>&copy; 2025 Усі права захищені</p>
+    <footer style="  flex-shrink: 0;">
+        <p>&copy; 2025 секретна розробка НАТО</p>
     </footer>
 </body>
 </html>
